@@ -1,4 +1,4 @@
-package com.example.konoj.mdp2018_grp12.Service;
+package com.example.konoj.mdp2018_grp12.BluetoothService;
 
 /**
  * Created by konoj on 26/1/2018.
@@ -7,7 +7,6 @@ package com.example.konoj.mdp2018_grp12.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -19,22 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
-import com.example.konoj.mdp2018_grp12.MainActivity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
 
 /**
  * This class does all the work for setting up and managing Bluetooth
@@ -57,6 +40,9 @@ public class BluetoothService {
             UUID.fromString("0001101-0000-1000-8000-00805F9B34FB");
     private static final UUID MY_UUID = UUID
             .fromString("0001101-0000-1000-8000-00805F9B34FB");
+
+    private static final UUID mdpUUID =
+            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
     // Member fields
@@ -315,18 +301,18 @@ public class BluetoothService {
             BluetoothServerSocket tmp = null;
             mSocketType = secure ? "Secure" : "Insecure";
 
-            // Create a new listening server socket
             try {
                 if (secure) {
                     tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE,
-                            MY_UUID_SECURE);
+                            mdpUUID);
                 } else {
                     tmp = mAdapter.listenUsingInsecureRfcommWithServiceRecord(
-                            NAME_INSECURE, MY_UUID_INSECURE);
+                            NAME_INSECURE, mdpUUID);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Socket Type: " + mSocketType + "listen() failed", e);
             }
+
             mmServerSocket = tmp;
             mState = STATE_LISTEN;
         }
@@ -407,10 +393,10 @@ public class BluetoothService {
             try {
                 if (secure) {
                     tmp = device.createRfcommSocketToServiceRecord(
-                            MY_UUID_SECURE);
+                            mdpUUID);
                 } else {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(
-                            MY_UUID_INSECURE);
+                            mdpUUID);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Socket Type: " + mSocketType + "create() failed", e);

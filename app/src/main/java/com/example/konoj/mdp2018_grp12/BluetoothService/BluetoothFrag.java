@@ -1,4 +1,4 @@
-package com.example.konoj.mdp2018_grp12.Service;
+package com.example.konoj.mdp2018_grp12.BluetoothService;
 
 /**
  * Created by konoj on 26/1/2018.
@@ -59,6 +59,9 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
     private Button backButton;
     private Button leftButton;
     private Button rightButton;
+    private Button updateButton;
+    private Button fastestButton;
+    private Button exploreButton;
     private GridView mapView;
     PixelGrid pixelGrid;
 
@@ -156,6 +159,9 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         backButton = (Button) view.findViewById(R.id.back);
         leftButton = (Button) view.findViewById(R.id.left);
         rightButton = (Button) view.findViewById(R.id.right);
+        updateButton=(Button)view.findViewById(R.id.receiveGRID);
+        fastestButton=(Button)view.findViewById(R.id.fast);
+        exploreButton=(Button)view.findViewById(R.id.explore);
 
         pixelGrid=(PixelGrid)view.findViewById(R.id.pixelGridView);
 
@@ -190,6 +196,27 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
             }
         });*/
 
+
+        fastestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage("beginFastest");
+            }
+        });
+
+        exploreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage("beginExplore");
+            }
+        });
+
+       updateButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               sendMessage("GRID");
+           }
+       });
        fwdButton.setOnClickListener(new View.OnClickListener(){
            public void onClick(View v){
 
@@ -211,13 +238,13 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         leftButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 pixelGrid.moveLeft();
-                sendMessage("sl");
+                sendMessage("tl");
             }
         });
 
         rightButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                sendMessage("sr");
+                sendMessage("tr");
                 pixelGrid.moveRight();
             }
         });
@@ -385,7 +412,9 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
     };
 
     private void updateLoc(String readMessage){
-        try {
+
+        Log.e("Received",readMessage);
+        /*try {
             Log.e("postionxy","load");
             JSONObject receive=new JSONObject(readMessage);
             JSONArray coor=receive.getJSONArray("robotPosition");
@@ -395,13 +424,13 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
 
             Log.e("Robotdir",Integer.toString(direction));
 
-            String map="";
+            String map=" ";
             pixelGrid.mapInString(map,x,y,direction);
 
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

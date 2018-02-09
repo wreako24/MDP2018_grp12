@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".Service.DeviceListActivity"
+            android:name=".BluetoothService.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog"/>

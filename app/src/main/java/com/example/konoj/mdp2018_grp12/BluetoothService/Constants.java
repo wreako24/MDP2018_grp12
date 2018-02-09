@@ -1,4 +1,4 @@
-package com.example.konoj.mdp2018_grp12.Service;
+package com.example.konoj.mdp2018_grp12.BluetoothService;
 
 /**
  * Created by konoj on 26/1/2018.

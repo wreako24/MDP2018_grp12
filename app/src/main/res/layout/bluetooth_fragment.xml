@@ -27,8 +27,8 @@
         android:background="@drawable/border"
         android:text="No Status"
         android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textSize="30sp" />
+        android:textAllCaps="false"
+        android:textSize="14sp" />
 
 
     <LinearLayout
@@ -43,16 +43,46 @@
 
             android:id="@+id/pixelGridView"
             android:layout_width="406dp"
-            android:layout_height="541dp"
-            android:layout_below="@+id/btn_start1"
-            android:layout_marginTop="60dp"
-            android:layout_above="@+id/btn_forward"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp" />
+            android:layout_height="300dp" />
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_weight="0.2"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/explore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Exploration" />
 
+            <Button
+                android:id="@+id/fast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Fastest path" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_weight="0.2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/receiveGRID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update" />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

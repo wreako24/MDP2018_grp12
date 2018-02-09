@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ViewAnimator;
 
-import com.example.konoj.mdp2018_grp12.Service.BluetoothFrag;
+import com.example.konoj.mdp2018_grp12.BluetoothService.BluetoothFrag;
 
 public class MainActivity extends AppCompatActivity {
 

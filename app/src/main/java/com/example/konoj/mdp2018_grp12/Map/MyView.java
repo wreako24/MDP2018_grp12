@@ -4,11 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.konoj.mdp2018_grp12.Service.BluetoothFrag;
+import com.example.konoj.mdp2018_grp12.BluetoothService.BluetoothFrag;
 
 public class MyView extends View {
 
