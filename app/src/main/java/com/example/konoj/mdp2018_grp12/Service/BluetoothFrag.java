@@ -27,16 +27,22 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.konoj.mdp2018_grp12.Map.MyView;
+import com.example.konoj.mdp2018_grp12.Map.PixelGrid;
 import com.example.konoj.mdp2018_grp12.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
-public class BluetoothFrag extends Fragment {
+public class BluetoothFrag extends Fragment implements MyView.OnToggledListener {
 
     private static final String TAG = "BluetoothChatFragment";
 
@@ -53,6 +59,9 @@ public class BluetoothFrag extends Fragment {
     private Button backButton;
     private Button leftButton;
     private Button rightButton;
+    private GridView mapView;
+    PixelGrid pixelGrid;
+
 
     /**
      * Name of the connected device
@@ -142,12 +151,20 @@ public class BluetoothFrag extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        statusText = (TextView)view.findViewById(R.id.StatusText);
-        fwdButton=(Button)view.findViewById(R.id.fwd);
-        backButton=(Button) view.findViewById(R.id.back);
-        leftButton=(Button)view.findViewById(R.id.left);
-        rightButton=(Button)view.findViewById(R.id.right);
+        statusText = (TextView) view.findViewById(R.id.StatusText);
+        fwdButton = (Button) view.findViewById(R.id.fwd);
+        backButton = (Button) view.findViewById(R.id.back);
+        leftButton = (Button) view.findViewById(R.id.left);
+        rightButton = (Button) view.findViewById(R.id.right);
+
+        pixelGrid=(PixelGrid)view.findViewById(R.id.pixelGridView);
+
+
+
     }
+
+
+
 
     /**
      * Set up the UI and background operations for chat.
@@ -175,29 +192,33 @@ public class BluetoothFrag extends Fragment {
 
        fwdButton.setOnClickListener(new View.OnClickListener(){
            public void onClick(View v){
-               View view = getView();
-               if (null != view) {
+
+                   pixelGrid.moveForward();
                    sendMessage("f");
-               }
+
+
             }
            });
 
         backButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
+                pixelGrid.moveDown();
                 sendMessage("r");
             }
         });
 
         leftButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                sendMessage("tl");
+                pixelGrid.moveLeft();
+                sendMessage("sl");
             }
         });
 
         rightButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                sendMessage("tr");
+                sendMessage("sr");
+                pixelGrid.moveRight();
             }
         });
 
@@ -339,6 +360,10 @@ public class BluetoothFrag extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    Log.e("Receive",readMessage);
+
+                    updateLoc(readMessage);
+
                     statusText.setText(readMessage);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -358,6 +383,26 @@ public class BluetoothFrag extends Fragment {
             }
         }
     };
+
+    private void updateLoc(String readMessage){
+        try {
+            Log.e("postionxy","load");
+            JSONObject receive=new JSONObject(readMessage);
+            JSONArray coor=receive.getJSONArray("robotPosition");
+            int x=coor.getInt(0);
+            int y=coor.getInt(1);
+            int direction=coor.getInt(2);
+
+            Log.e("Robotdir",Integer.toString(direction));
+
+            String map="";
+            pixelGrid.mapInString(map,x,y,direction);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -429,5 +474,15 @@ public class BluetoothFrag extends Fragment {
     }
 
 
+
+
+    @Override
+    public void OnToggled(MyView v, boolean touchOn) {
+        //get the id string
+
+        String idString = v.getIdX() + ":" + v.getIdY();
+
+        Toast.makeText(getActivity(),idString,Toast.LENGTH_SHORT).show();
+    }
 
 }
