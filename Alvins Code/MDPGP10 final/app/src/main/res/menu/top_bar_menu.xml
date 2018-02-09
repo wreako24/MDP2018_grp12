@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/connect_devices"
+        android:icon="@drawable/bluetooth"
+        android:showAsAction="ifRoom"
+        android:title="Connect devices"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/discoverable"
+        android:icon="@drawable/visibility"
+        android:showAsAction="ifRoom"
+        android:title="Discoverable"
+        android:visible="false"
+        tools:ignore="AppCompatResource" />
+
+
+    <item
+        android:id="@+id/reconfiguration"
+        android:icon="@drawable/ic_gesture_white_24dp"
+        android:showAsAction="ifRoom"
+        android:title="Reconfigure"
+        tools:ignore="AppCompatResource" />
+
+
+</menu>
