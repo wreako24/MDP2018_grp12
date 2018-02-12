@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.konoj.mdp2018_grp12.Map.MyView;
-import com.example.konoj.mdp2018_grp12.Map.PixelGrid;
+import com.example.konoj.mdp2018_grp12.Map.PixelGridView;
 import com.example.konoj.mdp2018_grp12.R;
 
 import org.json.JSONArray;
@@ -63,7 +63,7 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
     private Button fastestButton;
     private Button exploreButton;
     private GridView mapView;
-    PixelGrid pixelGrid;
+    PixelGridView pixelGrid;
 
 
     /**
@@ -163,7 +163,9 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         fastestButton=(Button)view.findViewById(R.id.fast);
         exploreButton=(Button)view.findViewById(R.id.explore);
 
-        pixelGrid=(PixelGrid)view.findViewById(R.id.pixelGridView);
+        pixelGrid=(PixelGridView)view.findViewById(R.id.pixelGridView);
+
+
 
 
 
@@ -230,7 +232,6 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         backButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
-                pixelGrid.moveDown();
                 sendMessage("r");
             }
         });
@@ -244,8 +245,8 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
 
         rightButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                sendMessage("tr");
                 pixelGrid.moveRight();
+                sendMessage("tr");
             }
         });
 

@@ -1,9 +1,5 @@
 package com.example.konoj.mdp2018_grp12.Map;
 
-/**
- * Created by konoj on 7/2/2018.
- */
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,10 +10,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.konoj.mdp2018_grp12.R;
 
-public class PixelGrid extends View {
+public class PixelGridView extends View {
     //private int numColumns, numRows;
     private int numColumns = 15;
     private int numRows = 20;
@@ -39,16 +36,17 @@ public class PixelGrid extends View {
     Bitmap leftArrow;
     Bitmap upArrow;
     Bitmap downArrow;
-    PixelGrid pgv;
+    PixelGridView pgv;
     private float scale = 1f;
     private ScaleGestureDetector SGD;
 
 
-    public PixelGrid(Context context) {
+
+    public PixelGridView(Context context) {
         this(context, null);
     }
 
-    public PixelGrid(Context context, AttributeSet attrs) {
+    public PixelGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         SGD = new ScaleGestureDetector(context, new ScaleListener());
         blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -64,29 +62,12 @@ public class PixelGrid extends View {
     }
 
 
-    public void setNumColumns(int numColumns) {
-        this.numColumns = numColumns;
-        calculateDimensions(0, 0);
-    }
-
-    public int getNumColumns() {
-        return numColumns;
-    }
-
-    public void setNumRows(int numRows) {
-        this.numRows = numRows;
-        calculateDimensions(0, 0);
-    }
-
-    public int getNumRows() {
-        return numRows;
-    }
 
 
-    public void setCoordinates(int coor1, int coor2) {
-        cellFront[coor1][coor2] = true;
-        cellRear[coor1][coor2 - 1] = true;
-        calculateDimensions(coor1, coor2);
+    public void setCoordinates(int coor1,int coor2){
+        cellFront[coor1][coor2]=true;
+        cellRear[coor1][coor2-1]=true;
+        calculateDimensions(coor1,coor2);
         //System.out.println(cellFront);
 
     }
@@ -94,10 +75,10 @@ public class PixelGrid extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        calculateDimensions(0, 0);
+        calculateDimensions(0,0);
     }
 
-    private void calculateDimensions(int x, int y) {
+    private void calculateDimensions(int x ,  int y) {
         if (x == 0 && y == 0) {
             if (numColumns == 0 || numRows == 0)
                 return;
@@ -113,13 +94,13 @@ public class PixelGrid extends View {
 
             //default cellChecked in the middle
             //AMD test
-            cellFront[0][1] = true;
-            cellRear[0][0] = true;
+//            cellFront[0][1] = true;
+//            cellRear[0][0] = true;
             //actual robot
-//        cellChecked[7][9] = true;
-//        cellChecked[7][8] = true;
-//        cellChecked[6][9] = true;
-//        cellChecked[6][8] = true;
+        cellChecked[18][0] = true;
+        cellChecked[18][1] = true;
+        cellChecked[19][0] = true;
+        cellChecked[19][1] = true;
             currentAngle = 0;
         } else {
             cellWidth = getWidth() / numColumns;
@@ -133,13 +114,13 @@ public class PixelGrid extends View {
 
             //default cellChecked in the middle
             //AMD test
-            cellFront[x][y] = true;
-            cellRear[x][y - 1] = true;
+//            cellFront[x][y]=true;
+//            cellRear[x][y-1]=true;
             //actual robot
-//        cellChecked[7][9] = true;
-//        cellChecked[7][8] = true;
-//        cellChecked[6][9] = true;
-//        cellChecked[6][8] = true;
+            cellChecked[18][0] = true;
+            cellChecked[18][1] = true;
+            cellChecked[19][0] = true;
+            cellChecked[19][1] = true;
             currentAngle = 0;
 
             invalidate();
@@ -173,11 +154,6 @@ public class PixelGrid extends View {
         super.onDraw(canvas);
         canvas.save();
         canvas.scale(scale, scale);
-        //...
-        //Your onDraw() code
-        //...
-
-
         canvas.drawColor(Color.WHITE);
 
         if (numColumns == 0 || numRows == 0)
@@ -187,13 +163,13 @@ public class PixelGrid extends View {
         int height = getHeight();
 
         //AMD test
-        for (int i = 0; i < numRows; i++) {
+       /* for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
                 //cellChecked[i][j]=true;
-               /* if(cellChecked[i][j]) {
+                if(cellChecked[i][j]) {
                     System.out.println("Green");
                     canvas.drawRect(i * cellWidth, j * cellHeight, (i + 1) * cellWidth, (j + 1) * cellHeight, greenPaint);
-               }*/
+               }
                 if (cellRear[i][j]) {
                     canvas.drawRect(j * cellWidth, (numRows - 1 - i) * (cellHeight), (j + 1) * cellWidth, (numRows - 1 - i + 1) * (cellHeight), bluePaint);
                     //canvas.drawRect((j-1) * cellWidth, (numRows-1-i) * (cellHeight), (j) * cellWidth, (numRows-1-i + 1) * (cellHeight), greenPaint);
@@ -213,72 +189,72 @@ public class PixelGrid extends View {
 
                 }
 
-               /* if (cellChecked[i][j]) {
+                if (cellChecked[i][j]) {
                     System.out.println("Green");
                     canvas.drawRect(i * cellWidth, j * cellHeight, (i + 1) * cellWidth, (j + 1) * cellHeight, greenPaint);
                     System.out.println(cellWidth);
                     System.out.println(cellHeight);
 
-                }*/
+                }
             }
 
         }
-
+*/
         //actual robot
-//        for (int i = 0; i < numRows; i++) {
-//            for (int j = 0; j < numColumns; j++) {
-//                if (cellChecked[i][j]) {
-//                	//cellChecked = current robot position, cellChecked in green
-//                    //canvas.drawRect(i * cellWidth, j * cellHeight, (i + 1) * cellWidth, (j + 1) * cellHeight, greenPaint);
-//                	if (currentAngle == 0) {
-//                		canvas.drawBitmap(rightArrow, j * cellWidth, i * cellHeight, null);
-//                	} else if (currentAngle == 90) {
-//                		canvas.drawBitmap(downArrow, j * cellWidth, i * cellHeight, null);
-//                	} else if (currentAngle == 180) {
-//                		canvas.drawBitmap(leftArrow, j * cellWidth, i * cellHeight, null);
-//                	} else if (currentAngle == 270) {
-//                		canvas.drawBitmap(upArrow, j * cellWidth, i * cellHeight, null);
-//                	}
-//                } else {
-//
-//	                if (cellType[i][j] == 0) {
-//	                	//red
-//	                	//unexplored, define to do
-//	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, redPaint);
-//	                } else if (cellType[i][j] == 1) {
-//	                	//white
-//	                	//empty, define to do
-//	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, whitePaint);
-//	                } else if (cellType[i][j] == 2) {
-//	                	//obstacle, color black
-//	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, blackPaint);
-//	                } else if (cellType[i][j] == 3) {
-//	                	//green
-//	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, greenPaint);
-//	                }
-//                }
-//            }
-//        }
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                if (cellChecked[i][j]) {
+                	//cellChecked = current robot position, cellChecked in green
+                    //canvas.drawRect(i * cellWidth, j * cellHeight, (i + 1) * cellWidth, (j + 1) * cellHeight, greenPaint);
+                	if (currentAngle == 0) {
+                		canvas.drawBitmap(upArrow, j * cellWidth, i * cellHeight, null);
+                	} else if (currentAngle == 90) {
+                		canvas.drawBitmap(rightArrow, j * cellWidth, i * cellHeight, null);
+                	} else if (currentAngle == 180) {
+                		canvas.drawBitmap(downArrow, j * cellWidth, i * cellHeight, null);
+                	} else if (currentAngle == 270) {
+                		canvas.drawBitmap(leftArrow, j * cellWidth, i * cellHeight, null);
+                	}
+                } else {
+
+	                if (cellType[i][j] == 0) {
+	                	//red
+	                	//unexplored, define to do
+	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, whitePaint);
+	                } else if (cellType[i][j] == 1) {
+	                	//white
+	                	//empty, define to do
+	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, whitePaint);
+	                } else if (cellType[i][j] == 2) {
+	                	//obstacle, color black
+	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, blackPaint);
+	                } else if (cellType[i][j] == 3) {
+	                	//green
+	                	canvas.drawRect(j * cellWidth, i * cellHeight, (j + 1) * cellWidth, (i + 1) * cellHeight, greenPaint);
+	                }
+                }
+            }
+        }
 
         //drawing lines
-        for (int i = 0; i < numColumns + 1; i++) {
+        for (int i = 0; i < numColumns+1; i++) {
             canvas.drawLine(i * cellWidth, 0, i * cellWidth, height, blackPaint);
         }
 
-        for (int i = 0; i < numRows + 1; i++) {
+        for (int i = 0; i < numRows+1; i++) {
             canvas.drawLine(0, i * cellHeight, width, i * cellHeight, blackPaint);
         }
         canvas.restore();
     }
 
-    public void moveRight() {
+    /*public void moveRight() {
         int columnFront = -1;
         int rowFront = -1;
         if (currentAngle == 0) {
             for (int i = 0; i < numRows; i++) {
                 for (int j = 0; j < numColumns; j++) {
                     if (cellFront[i][j]) {
-                        cellChecked[i][j] = true;
+                        cellChecked[i][j]=true;
                         rowFront = i;
                         columnFront = j;
                         System.out.println(i);
@@ -287,17 +263,17 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront + 1 < numColumns && columnFront >= 0) {
-                if (cellType[rowFront][columnFront + 1] != 1) {
+            if(columnFront+1 < numColumns && columnFront >=0) {
+                if (cellType[rowFront][columnFront+1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront][columnFront + 1] = !cellFront[rowFront][columnFront + 1];
-                    cellRear[rowFront][columnFront - 1] = !cellRear[rowFront][columnFront - 1];
+                    cellFront[rowFront][columnFront+1] = !cellFront[rowFront][columnFront+1];
+                    cellRear[rowFront][columnFront-1] = !cellRear[rowFront][columnFront-1];
                     cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
                 }
             }
 //    		else if (columnFront+1 == numColumns) {
 //    			if (cellFront[rowFront][columnFront]) {
-//    				cellRear[rowFront][columnFront-1] = !cellRear[rowFront][columnFront-1];
+//    				cellRear[rowFront][columnFront-1] = !cellRear[rowFront][columnFront-1]; 
 //        			cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
 //        			cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
 //    			}
@@ -311,10 +287,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront + 1 != numColumns) {
-                if (cellType[rowFront][columnFront + 1] != 1 && cellType[rowFront - 1][columnFront + 1] != 1) {
+            if(columnFront+1 != numColumns) {
+                if (cellType[rowFront][columnFront+1] != 1 && cellType[rowFront-1][columnFront+1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront - 1][columnFront + 1] = !cellFront[rowFront - 1][columnFront + 1];
+                    cellFront[rowFront-1][columnFront+1] = !cellFront[rowFront-1][columnFront+1];
                     currentAngle = 0;
                 }
             }
@@ -327,10 +303,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront + 1 != numColumns) {
-                if (cellType[rowFront][columnFront + 1] != 1 && cellType[rowFront + 1][columnFront + 1] != 1) {
+            if(columnFront+1 != numColumns ) {
+                if (cellType[rowFront][columnFront+1] != 1 && cellType[rowFront+1][columnFront+1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront + 1][columnFront + 1] = !cellFront[rowFront + 1][columnFront + 1];
+                    cellFront[rowFront+1][columnFront+1] = !cellFront[rowFront+1][columnFront+1];
                     currentAngle = 0;
                 }
             }
@@ -339,7 +315,6 @@ public class PixelGrid extends View {
         }
         invalidate();
     }
-
     public void moveLeft() {
         int columnFront = -1;
         int rowFront = -1;
@@ -352,11 +327,11 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront - 1 != -1) {
-                if (cellType[rowFront][columnFront - 1] != 1) {
+            if(columnFront-1 != -1) {
+                if (cellType[rowFront][columnFront-1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront][columnFront - 1] = !cellFront[rowFront][columnFront - 1];
-                    cellRear[rowFront][columnFront + 1] = !cellRear[rowFront][columnFront + 1];
+                    cellFront[rowFront][columnFront-1] = !cellFront[rowFront][columnFront-1];
+                    cellRear[rowFront][columnFront+1] = !cellRear[rowFront][columnFront+1];
                     cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
                 }
             }
@@ -369,10 +344,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront - 1 != -1) {
-                if (cellType[rowFront][columnFront - 1] != 1 && cellType[rowFront - 1][columnFront - 1] != 1) {
+            if(columnFront-1 != -1) {
+                if (cellType[rowFront][columnFront-1] != 1 && cellType[rowFront-1][columnFront-1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront - 1][columnFront - 1] = !cellFront[rowFront - 1][columnFront - 1];
+                    cellFront[rowFront-1][columnFront-1] = !cellFront[rowFront-1][columnFront-1];
                     currentAngle = 180;
                 }
             }
@@ -385,10 +360,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (columnFront - 1 != -1) {
-                if (cellType[rowFront][columnFront - 1] != 1 && cellType[rowFront + 1][columnFront - 1] != 1) {
+            if(columnFront-1 != -1) {
+                if (cellType[rowFront][columnFront-1] != 1 && cellType[rowFront+1][columnFront-1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront + 1][columnFront - 1] = !cellFront[rowFront + 1][columnFront - 1];
+                    cellFront[rowFront+1][columnFront-1] = !cellFront[rowFront+1][columnFront-1];
                     currentAngle = 180;
                 }
             }
@@ -396,7 +371,7 @@ public class PixelGrid extends View {
 
         }
         invalidate();
-    }
+    }*/
 
     public void moveDown() {
         int columnFront = -1;
@@ -410,10 +385,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront + 1 != numRows) {
-                if (cellType[rowFront + 1][columnFront] != 1 && cellType[rowFront + 1][columnFront - 1] != 1) {
+            if(rowFront+1 != numRows) {
+                if (cellType[rowFront+1][columnFront] != 1 && cellType[rowFront+1][columnFront-1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront + 1][columnFront - 1] = !cellFront[rowFront + 1][columnFront - 1];
+                    cellFront[rowFront+1][columnFront-1] = !cellFront[rowFront+1][columnFront-1];
                     currentAngle = 90;
                 }
             }
@@ -426,11 +401,11 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront + 1 != numRows) {
-                if (cellType[rowFront + 1][columnFront] != 1) {
+            if(rowFront+1 != numRows) {
+                if (cellType[rowFront+1][columnFront] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront + 1][columnFront] = !cellFront[rowFront + 1][columnFront];
-                    cellRear[rowFront - 1][columnFront] = !cellRear[rowFront - 1][columnFront];
+                    cellFront[rowFront+1][columnFront] = !cellFront[rowFront+1][columnFront];
+                    cellRear[rowFront-1][columnFront] = !cellRear[rowFront-1][columnFront];
                     cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
                 }
             }
@@ -443,20 +418,19 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront + 1 != numRows) {
-                if (cellType[rowFront + 1][columnFront] != 1 && cellType[rowFront + 1][columnFront + 1] != 1) {
+            if(rowFront+1 != numRows) {
+                if (cellType[rowFront+1][columnFront] != 1 && cellType[rowFront+1][columnFront+1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront + 1][columnFront + 1] = !cellFront[rowFront + 1][columnFront + 1];
+                    cellFront[rowFront+1][columnFront+1] = !cellFront[rowFront+1][columnFront+1];
                     currentAngle = 90;
                 }
             }
-        } else if (currentAngle == 270) {
+        } else if (currentAngle == 270){
 
         }
         invalidate();
     }
-
-    public void moveForward() {
+   /* public void moveForward() {
         int columnFront = -1;
         int rowFront = -1;
         if (currentAngle == 0) {
@@ -468,10 +442,10 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront - 1 != -1) {
-                if (cellType[rowFront - 1][columnFront] != 1 && cellType[rowFront - 1][columnFront - 1] != 1) {
+            if(rowFront-1 != -1) {
+                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront-1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront - 1][columnFront - 1] = !cellFront[rowFront - 1][columnFront - 1];
+                    cellFront[rowFront-1][columnFront-1] = !cellFront[rowFront-1][columnFront-1];
                     currentAngle = 270;
                 }
             }
@@ -484,11 +458,11 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront - 1 != -1) {
-                if (cellType[rowFront - 1][columnFront] != 1) {
+            if(rowFront-1 != -1) {
+                if (cellType[rowFront-1][columnFront] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront - 1][columnFront] = !cellFront[rowFront - 1][columnFront];
-                    cellRear[rowFront + 1][columnFront] = !cellRear[rowFront + 1][columnFront];
+                    cellFront[rowFront-1][columnFront] = !cellFront[rowFront-1][columnFront];
+                    cellRear[rowFront+1][columnFront] = !cellRear[rowFront+1][columnFront];
                     cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
                 }
             }
@@ -501,159 +475,177 @@ public class PixelGrid extends View {
                     }
                 }
             }
-            if (rowFront - 1 != -1) {
-                if (cellType[rowFront - 1][columnFront] != 1 && cellType[rowFront - 1][columnFront + 1] != 1) {
+            if(rowFront-1 != -1) {
+                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront+1] != 1) {
                     cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront - 1][columnFront + 1] = !cellFront[rowFront - 1][columnFront + 1];
+                    cellFront[rowFront-1][columnFront+1] = !cellFront[rowFront-1][columnFront+1];
                     currentAngle = 270;
                 }
             }
         } else if (currentAngle == 90) {
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    if (cellFront[i][j]) {
+                        rowFront = i;
+                        columnFront = j;
+                    }
+                }
+            }
+            if(rowFront-1 != -1) {
+                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront+1] != 1) {
+                    cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
+                    cellFront[rowFront-1][columnFront+1] = !cellFront[rowFront-1][columnFront+1];
+                    currentAngle = 270;
+                }
+            }
 
         }
         invalidate();
-    }
+    }*/
 
     //actual robot
-//    public void moveForward() {
-//    	int column = -1;
-//    	int row = -1;
-//    	if (currentAngle == 0) {
-//	        for (int i = 0; i < numColumns; i++) {
-//	            for (int j = 0; j < numRows; j++) {
-//	                if (cellChecked[i][j]) {
-//	                    column = i;
-//	                    row = j;
+    public void moveForward() {
+    	int column = -1;
+    	int row = -1;
+    	if (currentAngle == 0) {
+
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    if (cellChecked[i][j]) {
+                        column = i;
+                        row = j;
+                    }
+                }
+            }
+            //single grid movement
+//	        cellChecked[column][row] = !cellChecked[column][row];
+//	    	cellChecked[column-1][row] = !cellChecked[column-1][row];
+
+            //uncheck cells
+            if(column-2 != -1) {
+                cellChecked[column][row] = !cellChecked[column][row];
+                cellChecked[column][row-1] = !cellChecked[column][row-1];
+                //check cells
+                cellChecked[column-2][row] = !cellChecked[column-2][row];
+                cellChecked[column-2][row-1] = !cellChecked[column-2][row-1];
+            }
+
+            invalidate();
+
+
+    	} else if (currentAngle == 90) {
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+	                if (cellChecked[i][j]) {
+	                    column = i;
+	                    row = j;
+	                }
+	            }
+	        }
+    		//single grid movement
+//    		cellChecked[column][row] = !cellChecked[column][row];
+//    		cellChecked[column][row+1] = !cellChecked[column][row+1];
+
+    		 if(row+1 != numRows) {
+	    		//uncheck cells
+		    	cellChecked[column-1][row-1] = !cellChecked[column-1][row-1];
+		    	cellChecked[column][row-1] = !cellChecked[column][row-1];
+		    	//check cells
+		    	cellChecked[column-1][row+1] = !cellChecked[column-1][row+1];
+		    	cellChecked[column][row+1] = !cellChecked[column][row+1];
+    		 }
+
+	    	invalidate();
+    	} else if (currentAngle == 180) {
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    if (cellChecked[i][j]) {
+                        column = i;
+                        row = j;
+
+                    }
+                }
+            }
+            //single grid movement
+//	        cellChecked[column][row] = !cellChecked[column][row];
+//	    	cellChecked[column+1][row] = !cellChecked[column+1][row];
+            //last cell checked == [1][1]
+
+            if(column+1 != numColumns) {
+//	        	//4 grids
+//	        	//uncheck cells
+                cellChecked[column-1][row-1] = !cellChecked[column-1][row-1];
+                cellChecked[column-1][row] = !cellChecked[column-1][row];
+                //check cellls
+                cellChecked[column+1][row] = !cellChecked[column+1][row];
+                cellChecked[column+1][row-1] = !cellChecked[column+1][row-1];
+//	        	cellChecked[column-1][row] = !cellChecked[column-1][row];
+//	        	cellChecked[column+1][row] = !cellChecked[column+1][row];
+
+            }
+
+            invalidate();
+    	} else if (currentAngle == 270) {
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+	                if (cellChecked[i][j]) {
+	                    column = i;
+	                    row = j;
+	                }
+	            }
+	        }
+    		//single grid movement
+//	        cellChecked[column][row] = !cellChecked[column][row];
+//	    	cellChecked[column][row-1] = !cellChecked[column][row-1];
+
+    		if(row-2 != -1) {
+	    		//uncheck cells
+	    		cellChecked[column][row] = !cellChecked[column][row];
+	    		cellChecked[column-1][row] = !cellChecked[column-1][row];
+	    		//check cells
+	    		cellChecked[column][row-2] = !cellChecked[column][row-2];
+	    		cellChecked[column-1][row-2] = !cellChecked[column-1][row-2];
+    		}
+
+    		invalidate();
+    	}
+    }
 //
-//	                }
-//	            }
-//	        }
-//	        //single grid movement
-//	        //cellChecked[column][row] = !cellChecked[column][row];
-//	    	//cellChecked[column+1][row] = !cellChecked[column+1][row];
-//	        //last cell checked == [1][1]
-//
-//	        if(column+1 != numColumns) {
-////	        	//4 grids
-////	        	//uncheck cells
-//		        cellChecked[column-1][row-1] = !cellChecked[column-1][row-1];
-//		        cellChecked[column-1][row] = !cellChecked[column-1][row];
-//		        //check cellls
-//		        cellChecked[column+1][row] = !cellChecked[column+1][row];
-//		        cellChecked[column+1][row-1] = !cellChecked[column+1][row-1];
-////	        	cellChecked[column-1][row] = !cellChecked[column-1][row];
-////	        	cellChecked[column+1][row] = !cellChecked[column+1][row];
-//
-//	        }
-//
-//	    	invalidate();
-//    	} else if (currentAngle == 90) {
-//    		for (int i = 0; i < numColumns; i++) {
-//	            for (int j = 0; j < numRows; j++) {
-//	                if (cellChecked[i][j]) {
-//	                    column = i;
-//	                    row = j;
-//	                }
-//	            }
-//	        }
-//    		//single grid movement
-//    		//cellChecked[column][row] = !cellChecked[column][row];
-//    		//cellChecked[column][row+1] = !cellChecked[column][row+1];
-//
-//    		 if(row+1 != numRows) {
-//	    		//uncheck cells
-//		    	cellChecked[column-1][row-1] = !cellChecked[column-1][row-1];
-//		    	cellChecked[column][row-1] = !cellChecked[column][row-1];
-//		    	//check cells
-//		    	cellChecked[column-1][row+1] = !cellChecked[column-1][row+1];
-//		    	cellChecked[column][row+1] = !cellChecked[column][row+1];
-//    		 }
-//
-//	    	invalidate();
-//    	} else if (currentAngle == 180) {
-//    		for (int i = 0; i < numColumns; i++) {
-//	            for (int j = 0; j < numRows; j++) {
-//	                if (cellChecked[i][j]) {
-//	                    column = i;
-//	                    row = j;
-//	                }
-//	            }
-//	        }
-//    		//single grid movement
-//	        //cellChecked[column][row] = !cellChecked[column][row];
-//	    	//cellChecked[column-1][row] = !cellChecked[column-1][row];
-//
-//    		//uncheck cells
-//    		if(column-2 != -1) {
-//	    		cellChecked[column][row] = !cellChecked[column][row];
-//	    		cellChecked[column][row-1] = !cellChecked[column][row-1];
-//	    		//check cells
-//	    		cellChecked[column-2][row] = !cellChecked[column-2][row];
-//	    		cellChecked[column-2][row-1] = !cellChecked[column-2][row-1];
-//    		}
-//
-//	    	invalidate();
-//    	} else if (currentAngle == 270) {
-//    		for (int i = 0; i < numColumns; i++) {
-//	            for (int j = 0; j < numRows; j++) {
-//	                if (cellChecked[i][j]) {
-//	                    column = i;
-//	                    row = j;
-//	                }
-//	            }
-//	        }
-//    		//single grid movement
-//	        //cellChecked[column][row] = !cellChecked[column][row];
-//	    	//cellChecked[column][row-1] = !cellChecked[column][row-1];
-//
-//    		if(row-2 != -1) {
-//	    		//uncheck cells
-//	    		cellChecked[column][row] = !cellChecked[column][row];
-//	    		cellChecked[column-1][row] = !cellChecked[column-1][row];
-//	    		//check cells
-//	    		cellChecked[column][row-2] = !cellChecked[column][row-2];
-//	    		cellChecked[column-1][row-2] = !cellChecked[column-1][row-2];
-//    		}
-//
-//    		invalidate();
-//    	}
-//    }
-//
-//    public void moveRight() {
-//    	if (currentAngle == 0) {
-//    		currentAngle = 90;
-//    	} else if (currentAngle == 90) {
-//    		currentAngle = 180;
-//    	} else if (currentAngle == 180) {
-//    		currentAngle = 270;
-//    	} else {
-//    		currentAngle = 0;
-//    	}
-//    	invalidate();
-//    }
-//
-//    public void moveLeft() {
-//    	if (currentAngle == 0) {
-//    		currentAngle = 270;
-//    	} else if (currentAngle == 90) {
-//    		currentAngle = 0;
-//    	} else if (currentAngle == 180) {
-//    		currentAngle = 90;
-//    	} else {
-//    		currentAngle = 180;
-//    	}
-//    	invalidate();
-//    }
-//
+    public void moveRight() {
+    	if (currentAngle == 0) {
+    		currentAngle = 90;
+    	} else if (currentAngle == 90) {
+    		currentAngle = 180;
+    	} else if (currentAngle == 180) {
+    		currentAngle = 270;
+    	} else {
+    		currentAngle = 0;
+    	}
+    	invalidate();
+    }
+
+    public void moveLeft() {
+    	if (currentAngle == 0) {
+    		currentAngle = 270;
+    	} else if (currentAngle == 90) {
+    		currentAngle = 0;
+    	} else if (currentAngle == 180) {
+    		currentAngle = 90;
+    	} else {
+    		currentAngle = 180;
+    	}
+    	invalidate();
+    }
+//    
     public void updateMap() {
 
         invalidate();
     }
 
-    public void mapInString(String map, int column, int row, int direction) {
+    public void mapInString(String map, int column, int row, String direction) {
 
 
-       /* if (direction.equalsIgnoreCase("n")) {
+        if (direction.equalsIgnoreCase("n")) {
             currentAngle = 0;
         } else if (direction.equalsIgnoreCase("e")) {
             currentAngle = 90;
@@ -661,8 +653,7 @@ public class PixelGrid extends View {
             currentAngle = 180;
         } else if (direction.equalsIgnoreCase("w")) {
             currentAngle = 270;
-        }*/
-       this.currentAngle=direction;
+        }
 
         String mapFilter = map.replaceAll(" ", "");
         //String mapFilter = map.replaceAll(",", "");
@@ -670,7 +661,7 @@ public class PixelGrid extends View {
         for (int i = numRows; i > 0; i--) {
             for (int j = 0; j < numColumns; j++) {
                 if (mapFilter.length() != 0) {
-                    cellType[j][i] = Integer.parseInt(mapFilter.substring(0, 1));
+                    cellType[j][i] = Integer.parseInt(mapFilter.substring(0,1));
                     mapFilter = mapFilter.substring(1);
                 }
             }
@@ -694,7 +685,7 @@ public class PixelGrid extends View {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (mapFilter.length() != 0) {
-                    cellType[i][j] = Integer.parseInt(mapFilter.substring(0, 1));
+                    cellType[i][j] = Integer.parseInt(mapFilter.substring(0,1));
                     mapFilter = mapFilter.substring(1);
                 }
             }
