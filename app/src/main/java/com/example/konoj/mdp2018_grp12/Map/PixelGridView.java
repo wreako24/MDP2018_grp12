@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -65,6 +66,7 @@ public class PixelGridView extends View {
 
 
     public void setCoordinates(int coor1,int coor2){
+        Log.e("coor",coor1+" ,"+coor2);
         cellFront[coor1][coor2]=true;
         cellRear[coor1][coor2-1]=true;
         calculateDimensions(coor1,coor2);
@@ -430,78 +432,7 @@ public class PixelGridView extends View {
         }
         invalidate();
     }
-   /* public void moveForward() {
-        int columnFront = -1;
-        int rowFront = -1;
-        if (currentAngle == 0) {
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numColumns; j++) {
-                    if (cellFront[i][j]) {
-                        rowFront = i;
-                        columnFront = j;
-                    }
-                }
-            }
-            if(rowFront-1 != -1) {
-                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront-1] != 1) {
-                    cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront-1][columnFront-1] = !cellFront[rowFront-1][columnFront-1];
-                    currentAngle = 270;
-                }
-            }
-        } else if (currentAngle == 270) {
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numColumns; j++) {
-                    if (cellFront[i][j]) {
-                        rowFront = i;
-                        columnFront = j;
-                    }
-                }
-            }
-            if(rowFront-1 != -1) {
-                if (cellType[rowFront-1][columnFront] != 1) {
-                    cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront-1][columnFront] = !cellFront[rowFront-1][columnFront];
-                    cellRear[rowFront+1][columnFront] = !cellRear[rowFront+1][columnFront];
-                    cellRear[rowFront][columnFront] = !cellRear[rowFront][columnFront];
-                }
-            }
-        } else if (currentAngle == 180) {
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numColumns; j++) {
-                    if (cellFront[i][j]) {
-                        rowFront = i;
-                        columnFront = j;
-                    }
-                }
-            }
-            if(rowFront-1 != -1) {
-                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront+1] != 1) {
-                    cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront-1][columnFront+1] = !cellFront[rowFront-1][columnFront+1];
-                    currentAngle = 270;
-                }
-            }
-        } else if (currentAngle == 90) {
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numColumns; j++) {
-                    if (cellFront[i][j]) {
-                        rowFront = i;
-                        columnFront = j;
-                    }
-                }
-            }
-            if(rowFront-1 != -1) {
-                if (cellType[rowFront-1][columnFront] != 1 && cellType[rowFront-1][columnFront+1] != 1) {
-                    cellFront[rowFront][columnFront] = !cellFront[rowFront][columnFront];
-                    cellFront[rowFront-1][columnFront+1] = !cellFront[rowFront-1][columnFront+1];
-                    currentAngle = 270;
-                }
-            }
 
-        }
-        invalidate();
-    }*/
 
     //actual robot
     public void moveForward() {

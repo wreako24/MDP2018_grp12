@@ -26,10 +26,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.konoj.mdp2018_grp12.Map.MyView;
 import com.example.konoj.mdp2018_grp12.Map.PixelGridView;
@@ -62,6 +64,9 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
     private Button updateButton;
     private Button fastestButton;
     private Button exploreButton;
+    private Button setButton;
+    private EditText xPos;
+    private EditText yPos;
     private GridView mapView;
     PixelGridView pixelGrid;
 
@@ -162,8 +167,24 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         updateButton=(Button)view.findViewById(R.id.receiveGRID);
         fastestButton=(Button)view.findViewById(R.id.fast);
         exploreButton=(Button)view.findViewById(R.id.explore);
-
+        setButton=(Button)view.findViewById(R.id.set_button);
         pixelGrid=(PixelGridView)view.findViewById(R.id.pixelGridView);
+
+        xPos=(EditText) view.findViewById(R.id.x_coor);
+        yPos=(EditText)view.findViewById(R.id.y_coor);
+
+        final ToggleButton toggle = (ToggleButton) view.findViewById(R.id.mode_toggle);
+        toggle.setTextOff("MANUAL");
+        toggle.setTextOn("AUTO");
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    toggle.setText("AUTO");
+                } else {
+                    toggle.setText("MANUAL");
+                }
+            }
+        });
 
 
 
@@ -221,10 +242,13 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
        });
        fwdButton.setOnClickListener(new View.OnClickListener(){
            public void onClick(View v){
-
+               if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
+                   Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                   return;
+               }else {
                    pixelGrid.moveForward();
                    sendMessage("f");
-
+               }
 
             }
            });
@@ -232,21 +256,50 @@ public class BluetoothFrag extends Fragment implements MyView.OnToggledListener 
         backButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
-                sendMessage("r");
+                if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    sendMessage("r");
+                }
             }
         });
 
         leftButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                pixelGrid.moveLeft();
-                sendMessage("tl");
+                if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    pixelGrid.moveLeft();
+                    sendMessage("tl");
+                }
             }
         });
 
         rightButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                pixelGrid.moveRight();
-                sendMessage("tr");
+                if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    pixelGrid.moveRight();
+                    sendMessage("tr");
+                }
+            }
+        });
+
+        setButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    int x=Integer.parseInt(String.valueOf(xPos.getText()));
+                    int y= Integer.parseInt(String.valueOf(yPos.getText()));
+                    pixelGrid.setCoordinates(x,y);
+
+                }
             }
         });
 
